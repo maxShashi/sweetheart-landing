@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+  <meta name="theme-color" content="#07070f"/>
+  <title>AI Undress & Video — sweetheart.chat</title>
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+    :root{
+      --pink:#f03fa0;--purple:#9b3fdf;
+      --dark:#07070f;--card:#111120;
+      --grad:linear-gradient(135deg,#f03fa0,#9b3fdf);
+    }
+    html,body{background:var(--dark);color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+
+    /* ── SECTION 1: Full-bleed hero with image ── */
+    .s1{
+      position:relative;
+      height:100svh; min-height:580px;
+      overflow:hidden;
+    }
+    .s1-img{
+      position:absolute;inset:0;
+      width:100%;height:100%;
+      object-fit:cover;object-position:center top;
+    }
+    /* gradient overlay: dark at top (for badge) + heavy dark at bottom (for text) */
+    .s1-overlay{
+      position:absolute;inset:0;
+      background:
+        linear-gradient(to bottom,
+          rgba(7,7,15,0.55) 0%,
+          rgba(7,7,15,0.0) 30%,
+          rgba(7,7,15,0.0) 50%,
+          rgba(7,7,15,0.75) 72%,
+          rgba(7,7,15,0.97) 100%);
+    }
+    .s1-top{
+      position:absolute;top:0;left:0;right:0;
+      display:flex;align-items:center;justify-content:space-between;
+      padding:16px 20px;
+    }
+    .logo{
+      display:flex;align-items:center;gap:7px;
+      font-size:15px;font-weight:800;
+      background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+    }
+    .live-badge{
+      display:flex;align-items:center;gap:6px;
+      background:rgba(7,7,15,0.7);
+      border:1px solid rgba(240,63,160,0.35);
+      border-radius:999px;padding:6px 14px;
+      font-size:12px;font-weight:700;color:#f59fd8;
+      backdrop-filter:blur(10px);
+    }
+    .live-dot{width:7px;height:7px;border-radius:50%;background:#f03fa0;animation:blink 1.2s ease-in-out infinite;}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:.15}}
+
+    .s1-bottom{
+      position:absolute;bottom:0;left:0;right:0;
+      padding:0 20px 28px;
+    }
+    .s1-eyebrow{
+      display:inline-flex;align-items:center;gap:6px;
+      background:rgba(240,63,160,0.15);
+      border:1px solid rgba(240,63,160,0.3);
+      border-radius:999px;padding:5px 14px;
+      font-size:12px;font-weight:700;color:#f59fd8;
+      margin-bottom:14px;
+    }
+    .s1 h1{
+      font-size:clamp(32px,9vw,48px);
+      font-weight:900;line-height:1.08;letter-spacing:-.025em;
+      margin-bottom:10px;
+    }
+    .s1 h1 span{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+    .s1-sub{
+      font-size:14px;color:rgba(255,255,255,0.65);
+      line-height:1.6;margin-bottom:22px;
+      max-width:340px;
+    }
+    .s1-btn{
+      display:flex;align-items:center;justify-content:center;gap:10px;
+      width:100%;
+      background:var(--grad);color:#fff;
+      font-size:17px;font-weight:800;
+      padding:17px 20px;border-radius:16px;
+      text-decoration:none;letter-spacing:.01em;
+      box-shadow:0 8px 40px rgba(240,63,160,0.5);
+      position:relative;overflow:hidden;
+    }
+    .s1-btn::after{
+      content:'';position:absolute;inset:0;
+      background:linear-gradient(135deg,rgba(255,255,255,0.12),transparent);
+    }
+    .s1-btn .arr{font-size:18px;transition:transform .2s;}
+    .s1-micro{
+      display:flex;justify-content:center;gap:16px;
+      margin-top:12px;font-size:11px;color:rgba(255,255,255,0.35);
+    }
+    .s1-micro span::before{content:'✓ ';color:var(--pink);}
+
+    /* ── SECTION 2: Swipe carousel ── */
+    .s2{padding:36px 0 12px;}
+    .s2-head{padding:0 20px;margin-bottom:20px;}
+    .s2-label{font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--pink);margin-bottom:6px;}
+    .s2-title{font-size:22px;font-weight:800;}
+    .s2-desc{font-size:13px;color:#5a5470;margin-top:4px;}
+
+    /* horizontal scroll track */
+    .carousel{
+      display:flex;gap:14px;
+      overflow-x:auto;overflow-y:hidden;
+      padding:0 20px 12px;
+      scroll-snap-type:x mandatory;
+      -webkit-overflow-scrolling:touch;
+      scrollbar-width:none;
+    }
+    .carousel::-webkit-scrollbar{display:none;}
+
+    .c-card{
+      flex:0 0 72vw;max-width:300px;
+      scroll-snap-align:start;
+      border-radius:20px;overflow:hidden;
+      position:relative;
+      aspect-ratio:3/4;
+    }
+    .c-card img{
+      width:100%;height:100%;
+      object-fit:cover;object-position:center top;
+      display:block;
+    }
+    .c-grad{
+      position:absolute;inset:0;
+      background:linear-gradient(to top,rgba(7,7,15,.92) 0%,rgba(7,7,15,.1) 50%,transparent 100%);
+    }
+    .c-body{
+      position:absolute;bottom:0;left:0;right:0;
+      padding:16px;
+    }
+    .c-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;}
+    .c-tag{
+      background:rgba(240,63,160,0.2);
+      border:1px solid rgba(240,63,160,0.4);
+      border-radius:999px;padding:3px 10px;
+      font-size:10px;font-weight:700;color:#f59fd8;
+    }
+    .c-card h3{font-size:16px;font-weight:800;margin-bottom:3px;}
+    .c-card p{font-size:12px;color:#8080a0;line-height:1.5;}
+    .c-unlock{
+      position:absolute;top:12px;right:12px;
+      background:rgba(240,63,160,0.9);
+      border-radius:999px;padding:6px 14px;
+      font-size:12px;font-weight:700;color:#fff;
+      text-decoration:none;
+      backdrop-filter:blur(8px);
+    }
+
+    /* scroll indicator dots */
+    .carousel-dots{
+      display:flex;justify-content:center;gap:6px;
+      padding:8px 0 0;
+    }
+    .cdot{
+      width:6px;height:6px;border-radius:50%;
+      background:rgba(255,255,255,0.15);
+      transition:all .25s;
+    }
+    .cdot.active{width:20px;border-radius:999px;background:var(--pink);}
+
+    /* ── SECTION 3: Stats pills ── */
+    .s3{padding:28px 20px;}
+    .stat-row{
+      display:grid;grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+    .stat-pill{
+      background:var(--card);
+      border:1px solid rgba(255,255,255,0.06);
+      border-radius:16px;padding:18px 16px;
+      text-align:center;
+    }
+    .stat-pill .n{
+      font-size:28px;font-weight:900;
+      background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+      line-height:1.1;
+    }
+    .stat-pill .l{font-size:12px;color:#4e4868;margin-top:4px;}
+
+    /* ── SECTION 4: How it works ── */
+    .s4{padding:8px 20px 32px;}
+    .s4-title{font-size:20px;font-weight:800;margin-bottom:20px;text-align:center;}
+    .steps-v{display:flex;flex-direction:column;gap:0;}
+    .step-row{
+      display:flex;align-items:flex-start;gap:16px;
+      padding:18px 0;
+      border-bottom:1px solid rgba(255,255,255,0.05);
+    }
+    .step-row:last-child{border-bottom:none;}
+    .step-num-badge{
+      flex-shrink:0;
+      width:36px;height:36px;border-radius:50%;
+      background:var(--grad);
+      display:flex;align-items:center;justify-content:center;
+      font-size:15px;font-weight:900;
+      margin-top:2px;
+    }
+    .step-row h4{font-size:15px;font-weight:700;margin-bottom:4px;}
+    .step-row p{font-size:13px;color:#5a5470;line-height:1.5;}
+
+    /* ── SECTION 5: Privacy ── */
+    .s5{
+      background:linear-gradient(135deg,rgba(240,63,160,0.07),rgba(155,63,223,0.07));
+      border-top:1px solid rgba(240,63,160,0.12);
+      border-bottom:1px solid rgba(240,63,160,0.12);
+      padding:28px 20px;
+    }
+    .prv-list{display:flex;flex-direction:column;gap:16px;}
+    .prv-row{display:flex;align-items:center;gap:14px;}
+    .prv-row .icon{font-size:24px;flex-shrink:0;}
+    .prv-row h4{font-size:14px;font-weight:700;}
+    .prv-row p{font-size:12px;color:#5a5470;line-height:1.4;margin-top:2px;}
+
+    /* ── SECTION 6: Final CTA block ── */
+    .s6{
+      padding:36px 20px;
+      text-align:center;
+    }
+    .s6 h2{font-size:26px;font-weight:900;line-height:1.15;margin-bottom:10px;}
+    .s6 h2 span{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+    .s6 p{font-size:13px;color:#5a5470;margin-bottom:24px;}
+    .s6-btn{
+      display:flex;align-items:center;justify-content:center;gap:10px;
+      width:100%;
+      background:var(--grad);color:#fff;
+      font-size:18px;font-weight:800;
+      padding:19px 20px;border-radius:16px;
+      text-decoration:none;
+      box-shadow:0 8px 40px rgba(240,63,160,0.45);
+    }
+
+    footer{
+      padding:20px;text-align:center;
+      font-size:11px;color:#2a2438;
+      border-top:1px solid rgba(255,255,255,0.04);
+      padding-bottom:calc(20px + env(safe-area-inset-bottom));
+    }
+
+    /* ── STICKY BOTTOM BAR ── */
+    .sticky-bar{
+      position:fixed;
+      bottom:0;left:0;right:0;
+      z-index:999;
+      background:rgba(7,7,15,0.95);
+      backdrop-filter:blur(20px);
+      border-top:1px solid rgba(240,63,160,0.2);
+      padding:12px 16px;
+      padding-bottom:calc(12px + env(safe-area-inset-bottom));
+    }
+    .sticky-inner{
+      display:flex;align-items:center;gap:12px;
+    }
+    .sticky-copy{flex:1;}
+    .sticky-copy strong{font-size:14px;font-weight:800;display:block;line-height:1.2;}
+    .sticky-copy span{font-size:11px;color:#5a5470;}
+    .sticky-btn{
+      flex-shrink:0;
+      background:var(--grad);color:#fff;
+      font-size:14px;font-weight:800;
+      padding:13px 22px;border-radius:14px;
+      text-decoration:none;white-space:nowrap;
+      box-shadow:0 4px 20px rgba(240,63,160,0.4);
+    }
+
+    /* body padding for sticky bar */
+    body{padding-bottom:80px;}
+  </style>
+</head>
+<body>
+
+<!-- ═══ S1: FULL-SCREEN HERO ═══ -->
+<section class="s1">
+  <img class="s1-img" src="landing_hero.jpg" alt=""/>
+  <div class="s1-overlay"></div>
+
+  <div class="s1-top">
+    <div class="logo">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+        <path d="M12 21s-9-6.5-9-12.5C3 5.46 5.46 3 8.5 3c1.74 0 3.29.85 4.25 2.16C13.71 3.85 15.26 3 17 3c3.04 0 5.5 2.46 5.5 5.5C22.5 14.5 12 21 12 21Z" fill="url(#lg)"/>
+        <defs><linearGradient id="lg" x1="3" y1="3" x2="22" y2="21" gradientUnits="userSpaceOnUse"><stop stop-color="#f03fa0"/><stop offset="1" stop-color="#9b3fdf"/></linearGradient></defs>
+      </svg>
+      sweetheart.chat
+    </div>
+    <div class="live-badge">
+      <div class="live-dot"></div>
+      100K+ users
+    </div>
+  </div>
+
+  <div class="s1-bottom">
+    <div class="s1-eyebrow">✨ Uncensored · Private · Free to start</div>
+    <h1>One Photo.<br/><span>Infinite Desire.</span></h1>
+    <p class="s1-sub">AI turns any photo into a private, ultra-realistic video of her — in under 30 seconds.</p>
+    <a href="https://b.sweetheart.chat/undress2?td_channelid=K26M55" class="s1-btn">
+      Unlock Her Now <span class="arr">→</span>
+    </a>
+    <div class="s1-micro">
+      <span>Free to start</span>
+      <span>Auto-deleted</span>
+      <span>No login</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ S2: SWIPE CARDS ═══ -->
+<section class="s2">
+  <div class="s2-head">
+    <div class="s2-label">What's possible</div>
+    <div class="s2-title">18+ AI Tools Unlocked</div>
+    <div class="s2-desc">Swipe to explore → tap to try free</div>
+  </div>
+
+  <div class="carousel" id="carousel">
+    <div class="c-card">
+      <img src="landing_card1.jpg" alt="AI Strip"/>
+      <div class="c-grad"></div>
+      <div class="c-body">
+        <div class="c-tags"><span class="c-tag">AI Strip</span><span class="c-tag">Undress</span></div>
+        <h3>Strip & Undress</h3>
+        <p>Clothes disappear in smooth AI video.</p>
+      </div>
+      <a href="https://b.sweetheart.chat/undress2?td_channelid=K26M55" class="c-unlock">🔓 Unlock</a>
+    </div>
+
+    <div class="c-card">
+      <img src="landing_card2.jpg" alt="Face Swap"/>
+      <div class="c-grad"></div>
+      <div class="c-body">
+        <div class="c-tags"><span class="c-tag">Face Swap</span><span class="c-tag">AI Kiss</span></div>
+        <h3>Face Swap & More</h3>
+        <p>Put her face on any scene seamlessly.</p>
+      </div>
+      <a href="https://b.sweetheart.chat/undress2?td_channelid=K26M55" class="c-unlock">🔓 Unlock</a>
+    </div>
+
+    <div class="c-card">
+      <img src="landing_card3.jpg" alt="AI Dance"/>
+      <div class="c-grad"></div>
+      <div class="c-body">
+        <div class="c-tags"><span class="c-tag">AI Dance</span><span class="c-tag">Sexy Pose</span></div>
+        <h3>Dance & Pose</h3>
+        <p>She moves how you want her to move.</p>
+      </div>
+      <a href="https://b.sweetheart.chat/undress2?td_channelid=K26M55" class="c-unlock">🔓 Unlock</a>
+    </div>
+  </div>
+
+  <div class="carousel-dots">
+    <div class="cdot active" data-i="0"></div>
+    <div class="cdot" data-i="1"></div>
+    <div class="cdot" data-i="2"></div>
+  </div>
+</section>
+
+<!-- ═══ S3: STATS ═══ -->
+<section class="s3">
+  <div class="stat-row">
+    <div class="stat-pill"><div class="n">100K+</div><div class="l">Satisfied users</div></div>
+    <div class="stat-pill"><div class="n">18+</div><div class="l">Uncensored tools</div></div>
+    <div class="stat-pill"><div class="n">&lt;30s</div><div class="l">Generation time</div></div>
+    <div class="stat-pill"><div class="n">0</div><div class="l">Photos retained</div></div>
+  </div>
+</section>
+
+<!-- ═══ S4: HOW IT WORKS ═══ -->
+<section class="s4">
+  <div class="s4-title">How It Works</div>
+  <div class="steps-v">
+    <div class="step-row">
+      <div class="step-num-badge">1</div>
+      <div>
+        <h4>Upload Her Photo 📤</h4>
+        <p>Any clear photo of a woman's face. That's all you need to get started.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num-badge">2</div>
+      <div>
+        <h4>Pick Your Action 🎯</h4>
+        <p>Choose from strip, undress, dance, kiss, face swap, and 13 more AI tools.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num-badge">3</div>
+      <div>
+        <h4>Watch It Come Alive 🎬</h4>
+        <p>AI generates your private video in under 30 seconds. Download instantly.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ S5: PRIVACY ═══ -->
+<section class="s5">
+  <div class="prv-list">
+    <div class="prv-row"><span class="icon">🔐</span><div><h4>Auto-Deleted After Processing</h4><p>Your photo is permanently erased the moment generation completes. Zero storage.</p></div></div>
+    <div class="prv-row"><span class="icon">🙈</span><div><h4>Your Video, Only Yours</h4><p>We never share, sell, or even look at what you create.</p></div></div>
+    <div class="prv-row"><span class="icon">🔞</span><div><h4>Fully Uncensored</h4><p>No blurs, no restrictions, no watermarks. Pure AI output.</p></div></div>
+    <div class="prv-row"><span class="icon">⚡</span><div><h4>Lightning Fast</h4><p>Dedicated GPU clusters. Most videos ready in under 30 seconds.</p></div></div>
+  </div>
+</section>
+
+<!-- ═══ S6: FINAL CTA ═══ -->
+<section class="s6">
+  <h2>Stop imagining.<br/><span>Start watching.</span></h2>
+  <p>Your first video is free. No card required.</p>
+  <a href="https://b.sweetheart.chat/undress2?td_channelid=K26M55" class="s6-btn">
+    🔓 Unlock Free Video →
+  </a>
+</section>
+
+<footer>Copyright 2026 sweetheart.chat · 18+ Only · Private &amp; Secure</footer>
+
+<!-- ═══ STICKY BOTTOM BAR ═══ -->
+<div class="sticky-bar">
+  <div class="sticky-inner">
+    <div class="sticky-copy">
+      <strong>Try it free — takes 30 sec</strong>
+      <span>100K+ users · fully uncensored</span>
+    </div>
+    <a href="https://b.sweetheart.chat/undress2?td_channelid=K26M55" class="sticky-btn">Unlock →</a>
+  </div>
+</div>
+
+<script>
+  // Carousel dot indicator
+  const car = document.getElementById('carousel');
+  const dots = document.querySelectorAll('.cdot');
+  const cards = car.querySelectorAll('.c-card');
+  car.addEventListener('scroll', () => {
+    const idx = Math.round(car.scrollLeft / (car.scrollWidth / cards.length));
+    dots.forEach((d,i) => d.classList.toggle('active', i === idx));
+  }, {passive: true});
+
+  // Hide sticky bar when near top (hero already has CTA)
+  const sb = document.querySelector('.sticky-bar');
+  window.addEventListener('scroll', () => {
+    sb.style.opacity = window.scrollY > window.innerHeight * 0.6 ? '1' : '0';
+    sb.style.pointerEvents = window.scrollY > window.innerHeight * 0.6 ? 'all' : 'none';
+  }, {passive: true});
+  sb.style.opacity = '0'; sb.style.pointerEvents = 'none';
+  sb.style.transition = 'opacity .3s';
+</script>
+</body>
+</html>
